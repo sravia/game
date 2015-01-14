@@ -8,7 +8,7 @@ import io.netty.handler.codec.MessageToMessageEncoder;
 
 import java.util.List;
 
-public class Encoder extends MessageToMessageEncoder<Packet> {
+public class NetworkEncoder extends MessageToMessageEncoder<Packet> {
 
     @Override
     protected void encode(ChannelHandlerContext ctx, Packet packet, List<Object> out) throws Exception {

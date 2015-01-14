@@ -8,7 +8,7 @@ import io.netty.handler.codec.MessageToMessageDecoder;
 
 import java.util.List;
 
-public class Decoder extends MessageToMessageDecoder<ByteBuf> {
+public class NetworkDecoder extends MessageToMessageDecoder<ByteBuf> {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
