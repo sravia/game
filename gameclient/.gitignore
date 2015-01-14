@@ -1,0 +1,32 @@
+/.metadata
+/lib
+/.m2
+/*.zip
+/*.jar
+/target
+/*.class
+/bin
+/.project
+/.settings
+/.classpath
+# Maven files
+.m2/*
+
+# IDEA project files
+*.iml
+*.ipr
+*.iws
+.idea
+
+# Eclips project files
+.project
+.classpath
+.settings
+*.out
+
+# Backup files
+*~
+
+# Project build
+out/*
+target/*
