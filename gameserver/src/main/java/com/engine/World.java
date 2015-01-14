@@ -139,9 +139,8 @@ public class World {
     }
 
     private void loadConfiguration() throws Exception {
-        File[] files = new File("/.").listFiles();//./src/main/java/com/net/packet/decoders/
+        File[] files = new File("./src/main/java/com/net/packet/decoders/").listFiles();
         for (File file : files) {
-            System.out.println(file.getAbsolutePath());
             Class<?> c = Class.forName("com.net.packet.decoders." + file.getName().replaceAll(
                     ".java", ""));
 
