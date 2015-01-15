@@ -18,6 +18,7 @@ public class SessionMessageTask implements Task {
 
     @Override
     public void execute(GameEngine context) {
+        System.out.println("executing");
         PacketManager.getPacketManager().handle(ctx, packet);
     }
 

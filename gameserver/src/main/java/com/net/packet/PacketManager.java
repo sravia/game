@@ -19,15 +19,6 @@ public class PacketManager {
 
     private static PacketDecoder[] packetDecoders = new PacketDecoder[256];
 
-    public PacketManager() {
-        /*PacketDecoder defaultDecoder = new DefaultPacketDecoder();
-        for (int i = 0; i < packetDecoders.length; i++) {
-            if (packetDecoders[i] == null) {
-                packetDecoders[i] = defaultDecoder;
-            }
-        }*/
-    }
-
     public void bind(int id, PacketDecoder decoder) {
         packetDecoders[id] = decoder;
     }
@@ -36,7 +27,7 @@ public class PacketManager {
         try {
             packetDecoders[packet.getOpcode()].decode((Player) session.read(), packet);
         } catch (Exception ex) {
-            System.out.println("Exception handling packet."+ ex);
+            System.out.println("Exception handling packet: "+ ex);
             session.channel().close();
         }
     }

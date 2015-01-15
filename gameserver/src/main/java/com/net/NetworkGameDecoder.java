@@ -8,11 +8,11 @@ import io.netty.handler.codec.MessageToMessageDecoder;
 
 import java.util.List;
 
-public class NetworkDecoder extends MessageToMessageDecoder<ByteBuf> {
+public class NetworkGameDecoder extends MessageToMessageDecoder<ByteBuf> {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        System.out.println("decoder");
+        System.out.println("NetworkGameDecoder");
         if (in.isReadable()) {
             int opcode = in.readByte();
             if (opcode > 0) {

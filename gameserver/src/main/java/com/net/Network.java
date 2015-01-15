@@ -26,7 +26,7 @@ public final class Network extends ChannelInboundHandlerAdapter {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast("decoder",new NetworkDecoder());
+                            ch.pipeline().addLast("decoder",new NetworkLoginDecoder());
                             ch.pipeline().addLast("encoder",new NetworkEncoder());
                             ch.pipeline().addLast(new NetworkHandler());
                         }
