@@ -1,5 +1,6 @@
 package com.net;
 
+import com.engine.World;
 import com.game.entity.player.Player;
 import com.net.packet.Packet;
 import com.net.packet.PacketBuilder;
@@ -23,7 +24,7 @@ public class NetworkLoginDecoder extends MessageToMessageDecoder<ByteBuf> {
 
             Player player = new Player(ctx.channel(),username,password);
             ctx.channel().pipeline().replace("decoder", "decoder", new NetworkGameDecoder());
-            ctx.write(player);
+            World.getWorld().load(player);
         }
     }
 }

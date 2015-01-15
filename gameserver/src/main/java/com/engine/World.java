@@ -89,7 +89,7 @@ public class World {
         return engine;
     }
 
-    public void load(final Player player, final boolean lobby) {
+    public void load(final Player player) {
         engine.submitWork(new Runnable() {
             @Override
             public void run() {
@@ -100,9 +100,36 @@ public class World {
     }
 
     public void register(final Player player) {
-        /*
-        Loggin player to lobby/game?
-        * */
+        player.getSession().write(new PacketBuilder().put((byte) fReturnCode).toPacket()).addListener(new ChannelFutureListener() {
+
+            @Override
+            public void operationComplete(ChannelFuture arg0) throws Exception {
+                System.out.println("WE RETURN OPCODE: " + fReturnCode);
+                if (fReturnCode != 2) {
+                    player.getSession().close();
+                } else {
+                    System.out.println("Is Lobby: " + player.isInLobby());
+                    if (player.isInLobby())
+                        player.getActionSender().sendLobby();
+                    else
+                        player.getActionSender().sendLogin();
+
+                    player.getActionSender().sendPrivateMessageConfig();
+                    if (Constants.CONNNECT_TO_LOGIN_SERVER) {
+                        // World.getWorld().getLoginServerConnector().spaceHolder();
+                    } else {
+                        // player.getActionSender().sendIgnore();
+
+                        for (Friend f : player.getFriends())
+                            player.getActionSender().sendPrivateMessageStatus(NameUtils.longToName(f.getName()), f.getRank(), 1, false, false);
+
+                        for (Player p : onlinePlayers)
+                            if (p != player)
+                                sendOnline(player, p);
+                    }
+                }
+            }
+        });
     }
 
     public EntityList<Player> getPlayers() {
