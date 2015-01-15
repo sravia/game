@@ -8,18 +8,17 @@ import io.netty.channel.ChannelHandlerContext;
 
 public class SessionMessageTask implements Task {
 
-    private ChannelHandlerContext session;
+    private ChannelHandlerContext ctx;
+    private Packet packet;
 
-    private Packet message;
-
-    public SessionMessageTask(ChannelHandlerContext session, Packet message) {
-        this.session = session;
-        this.message = message;
+    public SessionMessageTask(ChannelHandlerContext ctx, Packet packet) {
+        this.ctx = ctx;
+        this.packet = packet;
     }
 
     @Override
     public void execute(GameEngine context) {
-        PacketManager.getPacketManager().handle(session, message);
+        PacketManager.getPacketManager().handle(ctx, packet);
     }
 
 }

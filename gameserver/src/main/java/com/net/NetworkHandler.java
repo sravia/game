@@ -30,7 +30,9 @@ public class NetworkHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         System.out.println("channelRead:");
-        engine.pushTask(new SessionMessageTask(ctx, (Packet) msg));
+        if(msg != null && msg instanceof Packet){
+            engine.pushTask(new SessionMessageTask(ctx, (Packet) msg));
+        }
     }
 
     @Override

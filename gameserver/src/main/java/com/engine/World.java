@@ -56,7 +56,6 @@ public class World {
         this.eventManager = new EventManager(engine);
         this.tickManager = new TickManager();
         this.registerGlobalEvents();
-        this.loadConfiguration();
     }
 
     private void registerGlobalEvents() {
@@ -136,30 +135,6 @@ public class World {
 
     public static World getWorld() {
         return world;
-    }
-
-    private void loadConfiguration() throws Exception {
-        File[] files = new File("./src/main/java/com/net/packet/decoders/").listFiles();
-        for (File file : files) {
-            Class<?> c = Class.forName("com.net.packet.decoders." + file.getName().replaceAll(
-                    ".java", ""));
-
-            if ((c.getSuperclass() == PacketDecoder.class)) {
-                PacketDecoder packet = (PacketDecoder) c.newInstance();
-
-                if (packet.getClass().getAnnotation(PacketOpcode.class) == null) {
-                    throw new Exception("PacketOpcode missing:" + packet);
-                }
-
-                int packetOpcodes[] = packet.getClass().getAnnotation(
-                        PacketOpcode.class).value();
-
-                for (int opcode : packetOpcodes) {
-                    PacketManager.getPacketManager().bind(opcode, packet);
-                    System.out.println("Bound " + packet.toString() + " to opcode : " + opcode);
-                }
-            }
-        }
     }
 
 }

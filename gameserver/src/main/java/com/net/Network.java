@@ -1,5 +1,6 @@
 package com.net;
 
+import com.net.packet.PacketManager;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -12,6 +13,7 @@ public final class Network extends ChannelInboundHandlerAdapter {
 
     public Network(int port) throws Exception {
         this.port = port;
+        PacketManager.loadPacketDecoders();
     }
 
     public void init() {
