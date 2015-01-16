@@ -10,11 +10,14 @@ import com.engine.task.tasks.SessionLoginTask;
 import com.engine.tick.Tick;
 import com.engine.tick.TickManager;
 import com.game.entity.player.Player;
+import com.net.packet.PacketBuilder;
 import com.net.packet.PacketManager;
 import com.net.packet.decoders.PacketDecoder;
 import com.net.packet.decoders.PacketOpcode;
 import com.utils.BlockingExecutorService;
 import com.utils.EntityList;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 
 import java.io.File;
 import java.util.concurrent.Callable;
@@ -34,7 +37,7 @@ public class World {
 
     private EventManager eventManager;
 
-    private EntityList<Player> onlinePlayers = new EntityList<Player>(2000);
+    private EntityList<Player> players = new EntityList<Player>(2000);
 
     public World() {
         backgroundLoader.submit(new Callable<Object>() {
@@ -99,49 +102,8 @@ public class World {
         });
     }
 
-    public void register(final Player player) {
-        player.getSession().write(new PacketBuilder().put((byte) fReturnCode).toPacket()).addListener(new ChannelFutureListener() {
-
-            @Override
-            public void operationComplete(ChannelFuture arg0) throws Exception {
-                System.out.println("WE RETURN OPCODE: " + fReturnCode);
-                if (fReturnCode != 2) {
-                    player.getSession().close();
-                } else {
-                    System.out.println("Is Lobby: " + player.isInLobby());
-                    if (player.isInLobby())
-                        player.getActionSender().sendLobby();
-                    else
-                        player.getActionSender().sendLogin();
-
-                    player.getActionSender().sendPrivateMessageConfig();
-                    if (Constants.CONNNECT_TO_LOGIN_SERVER) {
-                        // World.getWorld().getLoginServerConnector().spaceHolder();
-                    } else {
-                        // player.getActionSender().sendIgnore();
-
-                        for (Friend f : player.getFriends())
-                            player.getActionSender().sendPrivateMessageStatus(NameUtils.longToName(f.getName()), f.getRank(), 1, false, false);
-
-                        for (Player p : onlinePlayers)
-                            if (p != player)
-                                sendOnline(player, p);
-                    }
-                }
-            }
-        });
-    }
-
     public EntityList<Player> getPlayers() {
-        return onlinePlayers;
-    }
-
-    public void unregister(final Player player) {
-        /*
-        * save player data
-        * logout from game
-        * close session
-        * */
+        return players;
     }
 
     public void setWorldId(int worldId) {
