@@ -28,6 +28,33 @@ public class PacketBuilder {
         payload.writeInt(i);
     }
 
+    public void writeArray(ByteBuf buff, int... vals) {
+        for (int i = 0; i < vals.length; i++) {
+            buff.writeByte(vals[i]);
+        }
+    }
+
+    public void writeArray(ByteBuf buff, byte... vals) {
+        for (int i = 0; i < vals.length; i++) {
+            buff.writeByte(vals[i]);
+        }
+    }
+
+    public void writeS(ByteBuf buff, String value) {
+        if(value == null)
+            throw new RuntimeException("Value is null!");
+
+        try {
+            for (int i = 0; i < value.length(); i++) {
+                buff.writeChar(value.charAt(i));
+            }
+            buff.writeChar('\000');
+        }
+        catch (Exception e) {
+            System.out.println("Failed writing string!"+e);
+        }
+    }
+
     public void putString(String str) {
         char[] chars = str.toCharArray();
         for (char c : chars) {

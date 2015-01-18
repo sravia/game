@@ -25,7 +25,7 @@ public class Server {
             }
             World.getWorld().getBackgroundLoader().shutdown();
 
-            network.init();
+            network.run();
         }catch(Exception e){
             e.printStackTrace();
         }
