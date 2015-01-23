@@ -1,6 +1,7 @@
 /.metadata
 /lib
 /.m2
+/.idea
 /*.zip
 /*.jar
 /target
